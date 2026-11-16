@@ -46,3 +46,35 @@ func TestParseLevel(t *testing.T) {
 		})
 	}
 }
+
+func TestParseFormat(t *testing.T) {
+	type testCaseT struct {
+		s      string
+		err    string
+		format log.Format
+	}
+
+	testCases := []testCaseT{
+		{s: "", format: log.FormatText, err: `"" is not a valid log format`},
+		{s: "xml", format: log.FormatText, err: `"xml" is not a valid log format`},
+		{s: "jsonl", format: log.FormatText, err: `"jsonl" is not a valid log format`},
+		{s: "text", format: log.FormatText},
+		{s: "Text", format: log.FormatText},
+		{s: "TEXT", format: log.FormatText},
+		{s: "json", format: log.FormatJSON},
+		{s: "Json", format: log.FormatJSON},
+		{s: "JSON", format: log.FormatJSON},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.s, func(t *testing.T) {
+			f, err := log.ParseFormat(tc.s)
+			if tc.err != "" {
+				require.EqualError(t, err, tc.err)
+			} else {
+				require.NoError(t, err)
+			}
+			require.Equal(t, tc.format, f)
+		})
+	}
+}

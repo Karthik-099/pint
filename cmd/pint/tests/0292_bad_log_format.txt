@@ -1,0 +1,18 @@
+! exec pint --log-format=xml --no-color lint rules
+! stdout .
+stderr 'ERROR Execution completed with error\(s\) err="failed to configure logging: ''xml'' is not a valid log format"'
+
+! exec pint --log-format=xml --no-color config
+! stdout .
+stderr 'ERROR Execution completed with error\(s\) err="failed to configure logging: ''xml'' is not a valid log format"'
+
+! exec pint --log-format=xml --no-color parse 'foo'
+! stdout .
+stderr 'ERROR Execution completed with error\(s\) err="failed to configure logging: ''xml'' is not a valid log format"'
+
+-- rules/1.yml --
+groups:
+- name: foo
+  rules:
+  - record: foo
+    expr: sum(up)

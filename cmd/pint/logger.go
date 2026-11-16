@@ -6,13 +6,18 @@ import (
 	"github.com/cloudflare/pint/internal/log"
 )
 
-func initLogger(level string, noColor bool) error {
+func initLogger(level, format string, noColor bool) error {
 	l, err := log.ParseLevel(level)
 	if err != nil {
 		return fmt.Errorf("'%s' is not a valid log level", level)
 	}
 
-	log.Setup(l, noColor)
+	f, err := log.ParseFormat(format)
+	if err != nil {
+		return fmt.Errorf("'%s' is not a valid log format", format)
+	}
+
+	log.Setup(l, f, noColor)
 
 	return nil
 }

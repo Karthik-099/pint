@@ -276,6 +276,27 @@ Here's an example alert you can use for problems detected by pint:
 
 {% endraw %}
 
+## Logs
+
+pint writes logs to stderr. Use the `--log-level` flag to control how much is logged
+and the `--log-format` flag to choose between `text` (default) and `json` output.
+JSON logs are useful when running `pint watch` in an environment where logs are
+collected and parsed, for example on Kubernetes:
+
+```shell
+pint --log-format=json watch glob /etc/prometheus/rules/*.yml
+```
+
+With `--log-format=json` every log line is a JSON object with `time`, `level` and `msg`
+keys, followed by any extra attributes:
+
+```json
+{"time":"2026-11-17T10:00:00.123456789Z","level":"INFO","msg":"Finding all rules to check","paths":["rules"]}
+```
+
+Only log lines are affected, problem reports printed by `pint lint` and `pint ci`
+use the same human readable format in both modes.
+
 ## YAML parser
 
 By default pint will expect all Prometheus rule files to be following the exact

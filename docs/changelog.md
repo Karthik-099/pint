@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.91.0
+
+### Added
+
+- Added `--log-format` flag that can be used to emit logs as JSON with
+  `--log-format=json` - [#1107](https://github.com/cloudflare/pint/issues/1107).
+
 ## v0.90.0
 
 ### Added

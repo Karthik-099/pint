@@ -12,14 +12,15 @@ import (
 )
 
 const (
-	configFlag   = "config"
-	logLevelFlag = "log-level"
-	enabledFlag  = "enabled"
-	disabledFlag = "disabled"
-	offlineFlag  = "offline"
-	noColorFlag  = "no-color"
-	workersFlag  = "workers"
-	showDupsFlag = "show-duplicates"
+	configFlag    = "config"
+	logLevelFlag  = "log-level"
+	logFormatFlag = "log-format"
+	enabledFlag   = "enabled"
+	disabledFlag  = "disabled"
+	offlineFlag   = "offline"
+	noColorFlag   = "no-color"
+	workersFlag   = "workers"
+	showDupsFlag  = "show-duplicates"
 )
 
 var (
@@ -48,6 +49,11 @@ func newApp() *cli.Command {
 				Aliases: []string{"l"},
 				Value:   slog.LevelInfo.String(),
 				Usage:   "Log level.",
+			},
+			&cli.StringFlag{
+				Name:  logFormatFlag,
+				Value: "text",
+				Usage: "Log format, one of: text, json.",
 			},
 			&cli.BoolFlag{
 				Name:    noColorFlag,
@@ -97,9 +103,9 @@ type actionMeta struct {
 }
 
 func actionSetup(c *cli.Command) (meta actionMeta, err error) {
-	err = initLogger(c.String(logLevelFlag), c.Bool(noColorFlag))
+	err = initLogger(c.String(logLevelFlag), c.String(logFormatFlag), c.Bool(noColorFlag))
 	if err != nil {
-		return meta, fmt.Errorf("failed to set log level: %w", err)
+		return meta, fmt.Errorf("failed to configure logging: %w", err)
 	}
 
 	meta.workers = c.Int(workersFlag)

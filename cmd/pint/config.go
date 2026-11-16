@@ -17,9 +17,9 @@ var configCmd = &cli.Command{
 }
 
 func actionConfig(_ context.Context, c *cli.Command) (err error) {
-	err = initLogger(c.String(logLevelFlag), c.Bool(noColorFlag))
+	err = initLogger(c.String(logLevelFlag), c.String(logFormatFlag), c.Bool(noColorFlag))
 	if err != nil {
-		return fmt.Errorf("failed to set log level: %w", err)
+		return fmt.Errorf("failed to configure logging: %w", err)
 	}
 
 	cfg, _, err := config.Load(c.String(configFlag), c.IsSet(configFlag))

@@ -1,0 +1,19 @@
+exec pint --log-format=json --no-color lint rules
+! stdout .
+stderr '^\{"time":"[^"]+","level":"INFO","msg":"Finding all rules to check","paths":\["rules"\]\}$'
+stderr '^\{"time":"[^"]+","level":"INFO","msg":"Checking Prometheus rules","entries":1,"workers":10,"online":true\}$'
+stderr '^Warning: always firing alert \(alerts/comparison\)$'
+stderr '^\{"time":"[^"]+","level":"INFO","msg":"Problems found","Warning":1\}$'
+! stderr 'level=INFO'
+
+exec pint --log-format=JSON -l error --no-color lint rules
+! stdout .
+! stderr '"level":"INFO"'
+stderr '^Warning: always firing alert \(alerts/comparison\)$'
+
+-- rules/1.yml --
+groups:
+- name: foo
+  rules:
+  - alert: Always
+    expr: up

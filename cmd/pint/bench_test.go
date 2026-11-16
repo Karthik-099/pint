@@ -21,7 +21,7 @@ import (
 )
 
 func BenchmarkGlobFinder(b *testing.B) {
-	log.Setup(slog.LevelError, true)
+	log.Setup(slog.LevelError, log.FormatText, true)
 
 	finder := discovery.NewGlobFinder(
 		[]string{"bench/rules"},
@@ -37,7 +37,7 @@ func BenchmarkGlobFinder(b *testing.B) {
 }
 
 func BenchmarkGitFinder(b *testing.B) {
-	log.Setup(slog.LevelError, true)
+	log.Setup(slog.LevelError, log.FormatText, true)
 
 	tmp := b.TempDir()
 	require.NoError(b, os.CopyFS(tmp, os.DirFS("bench")))
@@ -159,7 +159,7 @@ rule {
 }
 
 func BenchmarkCheck(b *testing.B) {
-	log.Setup(slog.LevelError, true)
+	log.Setup(slog.LevelError, log.FormatText, true)
 
 	finder := discovery.NewGlobFinder(
 		[]string{"bench/rules"},
@@ -244,7 +244,7 @@ func BenchmarkCheck(b *testing.B) {
 }
 
 func BenchmarkRuleIsIdentical(b *testing.B) {
-	log.Setup(slog.LevelError, true)
+	log.Setup(slog.LevelError, log.FormatText, true)
 
 	finder := discovery.NewGlobFinder(
 		[]string{"bench/rules"},
@@ -269,7 +269,7 @@ func BenchmarkRuleIsIdentical(b *testing.B) {
 }
 
 func BenchmarkGetChecksForEntry(b *testing.B) {
-	log.Setup(slog.LevelError, true)
+	log.Setup(slog.LevelError, log.FormatText, true)
 
 	finder := discovery.NewGlobFinder(
 		[]string{"bench/rules"},
